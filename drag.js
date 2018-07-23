@@ -94,7 +94,6 @@ var DragAndDrop = DragAndDrop || {
                 }else if(_col == 1){
                     if(lst.length == 0){
                         $(_rDash[2]).css('display', 'none').attr('data-visible', 'false');
-                        return false;
                     }
                     if(af.length == 0){
                         $(_rDash[0]).css('display', 'none').attr('data-visible', 'false');
@@ -133,18 +132,20 @@ var DragAndDrop = DragAndDrop || {
     avanzaSiguienterow: function (_rdash, _dpanel, _val) {
         debugger;
         var _dcols = $(_rdash).find(dashElement);
-        for(var _col = _dcols.length - 1; _col >=0; _col--){
-            if($(_dcols[_col]).find(panel).length == 0){
-                $(_dpanel).closest(dashElement).removeClass('col-md-'+_val).addClass('col-md-4').attr('data-value-col','4');
-                $(_dpanel).appendTo($(_dcols[_col]));
-                $(_dcols[_dcols.length + 1]).css('display', 'block').attr('data-visible', 'true');
-            }else if($(_dcols[_col]).find(panel).length != 0){
-                var val = $(_dcols[_col]).attr('data-value-col');
-                $(_dcols[_col]).find(panel).appendTo($(_dcols[_col + 1]));
-                if($(_dcols[_col + 1]).attr('data-visible') === 'false'){
-                    $(_dcols[_col + 1]).css('display', 'block').attr('data-visible', 'true');
+        if(_dpanel.length != 0){
+            for(var _col = _dcols.length - 1; _col >=0; _col--){
+                if($(_dcols[_col]).find(panel).length == 0){
+                    $(_dpanel).closest(dashElement).removeClass('col-md-'+_val).addClass('col-md-4').attr('data-value-col','4');
+                    $(_dpanel).appendTo($(_dcols[_col]));
+                    $(_dcols[_dcols.length + 1]).css('display', 'block').attr('data-visible', 'true');
+                }else if($(_dcols[_col]).find(panel).length != 0){
+                    var val = $(_dcols[_col]).attr('data-value-col');
+                    $(_dcols[_col]).find(panel).appendTo($(_dcols[_col + 1]));
+                    if($(_dcols[_col + 1]).attr('data-visible') === 'false'){
+                        $(_dcols[_col + 1]).css('display', 'block').attr('data-visible', 'true');
+                    }
+                    $(_dpanel).appendTo($(_dcols[_col]));
                 }
-                $(_dpanel).appendTo($(_dcols[_col]));
             }
         }
     },
