@@ -98,8 +98,10 @@ var DragAndDrop = DragAndDrop || {
                         }
                     }
                     if((af.length != 0 && nxt.length != 0) && af.length !=0 & lst.length == 0 ){
-                        $(_rDash[1]).css('display', 'none').attr('data-visible', 'false');
-                        DragAndDrop.avanzaSiguienterow($(_rDash[1]).closest('div._rowindicador').next(), $(_rDash[1]).find(panel),$(_rDash[1]).attr('data-value-col'));                        
+                        if($(_rDash[_col]).attr('data-value-col') > 8){
+                            $(_rDash[1]).css('display', 'none').attr('data-visible', 'false');
+                            DragAndDrop.avanzaSiguienterow($(_rDash[1]).closest('div._rowindicador').next(), $(_rDash[1]).find(panel),$(_rDash[1]).attr('data-value-col'));                        
+                        }
                     }
                 }else if(_col == 1){
                     debugger;
@@ -168,6 +170,8 @@ var DragAndDrop = DragAndDrop || {
                         if($(_dcols[_col + 1]).attr('data-visible') === 'false'){
                             $(_dcols[_col + 1]).css('display', 'block').attr('data-visible', 'true');
                         }
+                        $(_dcols[_col]).removeClass('col-md-'+val).addClass('col-md-4').attr('data-value-col','4');
+                        $(_dcols[_col + 1]).removeClass('col-md-4').addClass('col-md-'+ val).attr('data-value-col',val);
                         $(_dpanel).appendTo($(_dcols[_col]));
                     }else{
                         DragAndDrop.avanzaSiguienterow($(_rdash).next(),_dpanel,_val);
