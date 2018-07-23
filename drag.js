@@ -107,7 +107,7 @@ var DragAndDrop = DragAndDrop || {
                         }
                     }
                     if(af.length!=0 && lst.length !=0){
-                        $(_rDash[2]).css('display', 'none').attr('data-visible', 'true');
+                        $(_rDash[2]).css('display', 'none').attr('data-visible', 'false');
                         DragAndDrop.avanzaSiguienterow($(_rDash[2]).closest('div._rowindicador').next(), $(_rDash[2]).find(panel),$(_rDash[2]).attr('data-value-col'))
                     }
                 }else if(_col == 2){
@@ -132,15 +132,15 @@ var DragAndDrop = DragAndDrop || {
             if($(_dcols[_col]).find(panel).length == 0){
                 $(_dpanel).closest(dashElement).removeClass('col-md-'+_val).addClass('col-md-4').attr('data-value-col','4');
                 $(_dpanel).appendTo($(_dcols[_col]));
-                $(_dcols[_col]).removeClass('col-md-'+$(_dcols[_col]).attr('data-value-col')).addClass('col-md-'+_val).attr('data-value-col','4');
-                $(_dcols[_dcols.length - 1]).css('display', 'block').attr('data-visible', 'true');
+                $(_dcols[_dcols.length + 1]).css('display', 'block').attr('data-visible', 'true');
             }else if($(_dcols[_col]).find(panel).length != 0){
                 var val = $(_dcols[_col]).attr('data-value-col');
-                //$(_dcols[_col]).find(panel).appendTo($(_dcols[_col + 1]));
-                //$(_dcols[_col + 1]).removeClass('col-md-4').addClass('col-md-'+).attr('data-value-col','4');
-                //$(_dpanel).appendTo($(_dcols[_col]));
+                $(_dcols[_col]).find(panel).appendTo($(_dcols[_col + 1]));
+                if($(_dcols[_col + 1]).attr('data-visible') === 'false'){
+                    $(_dcols[_col + 1]).css('display', 'block').attr('data-visible', 'true');
+                }
+                $(_dpanel).appendTo($(_dcols[_col]));
             }
-
         }
     },
 
@@ -148,8 +148,8 @@ var DragAndDrop = DragAndDrop || {
         var _dashcolumns = $(_rowsdashboard).find(dashElement);
         if (_dashcolumns.length > 0) {
             for (var _column = 0; _column < _dashcolumns.length; _column++) {
-                var exist_dashpanel = $(_dashcolumns[_column]).find('[name=dashboard-panel]');
-                if (exist_dashpanel.length == 0 && $(_dashcolumns[_column]).attr('data-visible') == 'false') {
+                var exist_dashpanel = $(_dashcolumns[_column]).find(panel);
+                if (exist_dashpanel.length == 0 && $(exist_dashpanel).attr('data-visible') == 'false') {
                     $(_dashcolumns[_column]).css('display', 'block').attr('data-visible', 'true');
                     return false;
                 }
@@ -168,6 +168,17 @@ var DragAndDrop = DragAndDrop || {
             disabled: false,
             start: function (event, ui) {
                 var _template = this;
+                //Actuaiza el tamaño de la columna a la original
+                var _val = $(_template).attr('data-value-col');
+                $(_template).removeClass('col-md-'+_val).addClass('col-md-4').attr('data-value-col','4');
+                debugger;
+                var _tdashcols = $(_template).closest('div._rowindicador');
+                var _colums = $(_tdashcols).find(dashElement);
+                for(var col = 0; col < _colums.length; col++){
+                    if($(_colums[col]).find(panel).length === 0){
+                        $(_colums[col]).css('display', 'block').attr('data-visible', 'true');
+                    }
+                }
             },
             update: function (event, ui) {
                 var _template = this;
