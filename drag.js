@@ -78,6 +78,7 @@ var DragAndDrop = DragAndDrop || {
                 if(_col == 0){
                     if(nxt.length == 0){
                         $(_rDash[1]).css('display', 'none').attr('data-visible', 'false');
+                        return false;
                     }
                     if(lst.length == 0){
                         $(_rDash[2]).css('display', 'none').attr('data-visible', 'false');
@@ -93,6 +94,7 @@ var DragAndDrop = DragAndDrop || {
                 }else if(_col == 1){
                     if(lst.length == 0){
                         $(_rDash[2]).css('display', 'none').attr('data-visible', 'false');
+                        return false;
                     }
                     if(af.length == 0){
                         $(_rDash[0]).css('display', 'none').attr('data-visible', 'false');
@@ -118,6 +120,9 @@ var DragAndDrop = DragAndDrop || {
                         $(_rDash[1]).css('display', 'none').attr('data-visible', 'false');
                     }
                     if(af.length !=0 && nxt.length != 0){
+                        DragAndDrop.avanzaSiguienterow($(_rDash[_col]).closest('div._rowindicador').next(), $(_rDash[_col]).find(panel),$(_rDash[_col]).attr('data-value-col'))
+                    }
+                    if(nxt.length !=0 && lst.length !=0){
                         DragAndDrop.avanzaSiguienterow($(_rDash[_col]).closest('div._rowindicador').next(), $(_rDash[_col]).find(panel),$(_rDash[_col]).attr('data-value-col'))
                     }
                 }
@@ -148,8 +153,8 @@ var DragAndDrop = DragAndDrop || {
         var _dashcolumns = $(_rowsdashboard).find(dashElement);
         if (_dashcolumns.length > 0) {
             for (var _column = 0; _column < _dashcolumns.length; _column++) {
-                var exist_dashpanel = $(_dashcolumns[_column]).find(panel);
-                if (exist_dashpanel.length == 0 && $(exist_dashpanel).attr('data-visible') == 'false') {
+                var _isdashpanel = $(_dashcolumns[_column]).find(panel);
+                if (_isdashpanel.length == 0 && $(_dashcolumns[_column]).attr('data-visible') == 'false') {
                     $(_dashcolumns[_column]).css('display', 'block').attr('data-visible', 'true');
                     return false;
                 }
