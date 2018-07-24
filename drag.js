@@ -175,7 +175,7 @@ var DragAndDrop = DragAndDrop || {
         if (_dpanel.length != 0) {
             $(_dpanel).closest(dashElement).removeClass('col-md-' + _val).addClass('col-md-4').attr('data-value-col', '4');
             for (var _col = _dcols.length - 1; _col >= 0; _col--) {
-                var val = $(_dcols[_col]).attr('data-value-col');
+                var val = DragAndDrop.searchColumnMax(_dcols);
                 if (val != 12) {
                     if ($(_dcols[_col]).find(panel).length == 0) {
                         $(_dpanel).appendTo($(_dcols[_col]));
@@ -268,22 +268,8 @@ var DragAndDrop = DragAndDrop || {
 
                 var _colums = $(_tdashcols).find(dashElement);
                 var numColumns = 0;
-
+                
                 DragAndDrop.actualizaColumnas(_tdashcols);
-
-                //console.log($(_colums).find(panel));
-
-                ////Busca elementos dentro del row si están ocultos, para mostrar
-                //for (var col = 0; col < _colums.length; col++) {
-                //    //Si no tiene un dashboard-panel
-
-                //    if ($(_colums[col]).find(panel).attr('id') === $(_template).find(panel).attr('id')) {
-
-                //    }
-                //    if ($(_colums[col]).find(panel).length === 0) {
-                //        $(_colums[col]).css('display', 'block').attr('data-visible', 'true');
-                //    }
-                //}
 
                 //Actualiza los iconos de los indicadores 
                 DragAndDrop.updateCursorToMove();
@@ -499,10 +485,18 @@ var DragAndDrop = DragAndDrop || {
         var _colums = $(_dashrow).find(dashElement);
         if (countelement.length === 2) {
             for (var col = 0; col < _colums.length; col++) {
-                //Si no tiene un dashboard-panel
+                //Si no tiene un dashboard-panel, muestra la columna
                 if ($(_colums[col]).find(panel).length === 0) {
                     $(_colums[col]).css('display', 'block').attr('data-visible', 'true');
                 }
+            }
+        }
+    },
+
+    searchColumnMax: function(_dcols){
+        for(var _column = 0; _column < _dcols.length; _column++){
+            if($(_dcols[_column]).attr('data-value-col') > 8){
+                return $(_dcols[_column]).attr('data-value-col');
             }
         }
     }
